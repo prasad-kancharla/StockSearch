@@ -2,7 +2,7 @@
  
  Tech Stack Used: Java 11, Spring Boot, Elastic Search, Spring Data JPA
  
- #### STEP 1: Install Elastic Search - version 6.5.1 using the below link
+ #### STEP 1: Install Elastic Search using the below link
  https://www.elastic.co/downloads/past-releases/elasticsearch-6-5-1
  
  #### STEP 2: Navigate to Config folder and open elasticsearch.yml. Uncomment 'cluster.name:' property & update it as below
