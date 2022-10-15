@@ -1,21 +1,21 @@
 package com.kotakcherry.stocksearch.controller;
 
-import com.kotakcherry.stocksearch.constants.Constants;
+import com.kotakcherry.stocksearch.dto.ResponseDto;
+import com.kotakcherry.stocksearch.dto.SearchStocksResponseDto;
+import com.kotakcherry.stocksearch.dto.StockRequestDto;
+import com.kotakcherry.stocksearch.dto.StockResponseDto;
+import com.kotakcherry.stocksearch.exception.AppErrorCodes;
+import com.kotakcherry.stocksearch.exception.AppException;
 import com.kotakcherry.stocksearch.helper.ExcelHelper;
 import com.kotakcherry.stocksearch.model.Stock;
 import com.kotakcherry.stocksearch.service.StockService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
-import static com.kotakcherry.stocksearch.constants.Constants.FILE_UPLOAD_SUCCESS;
-import static com.kotakcherry.stocksearch.constants.Constants.FILE_UPLOAD_FAILED;
-import static com.kotakcherry.stocksearch.constants.Constants.INVALID_FILE_FORMAT;
 
 @RestController
 @RequestMapping("/api/stocks")
@@ -31,20 +31,35 @@ public class StockController {
     }
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<ResponseDto> uploadFile(@RequestParam("file") MultipartFile file) {
         if (ExcelHelper.hasExcelFormat(file)) {
-            try {
-                stockService.save(file);
-                return ResponseEntity.status(HttpStatus.OK).body(FILE_UPLOAD_SUCCESS);
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(FILE_UPLOAD_FAILED + file.getOriginalFilename() + "!");
-            }
+                ResponseDto uploadFileResponseDto = stockService.saveAllStocks(file);
+                return ResponseEntity.ok(uploadFileResponseDto);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(INVALID_FILE_FORMAT);
+        log.error(AppErrorCodes.INVALID_FILE_FORMAT.getMessage());
+        throw new AppException(AppErrorCodes.INVALID_FILE_FORMAT);
     }
 
-    @GetMapping(path = "/search")
-    public List<Stock> searchStocks(@RequestParam String keywords) {
+    @PostMapping("/add")
+    public ResponseEntity<StockResponseDto> addStock(@RequestBody StockRequestDto stockRequestDto) {
+        StockResponseDto stockResponseDto = stockService.addStock(stockRequestDto);
+        return ResponseEntity.ok(stockResponseDto);
+    }
+
+    @GetMapping("/search")
+    public SearchStocksResponseDto searchStocks(@RequestParam String keywords) {
         return stockService.search(keywords);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<StockResponseDto> getStockById(@PathVariable Long id) {
+        StockResponseDto stockResponseDto = stockService.getStockById(id);
+        return ResponseEntity.ok(stockResponseDto);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ResponseDto> deleteStocks() {
+        ResponseDto deleteStocksResponseDto = stockService.deleteAll();
+        return ResponseEntity.ok(deleteStocksResponseDto);
     }
 }
