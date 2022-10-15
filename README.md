@@ -19,6 +19,8 @@
  #### (Optional) STEP 5: Open Postman and import postman collection by following the below steps
  File -> Import -> Upload Files -> select stock_search .postman_collection
  
+ Please use the TestStocks.xlsx as a sample excel sheet for your reference
+ 
  
 
 
