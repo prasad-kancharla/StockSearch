@@ -33,8 +33,8 @@ public class StockController {
     @PostMapping("/upload")
     public ResponseEntity<ResponseDto> uploadFile(@RequestParam("file") MultipartFile file) {
         if (ExcelHelper.hasExcelFormat(file)) {
-                ResponseDto uploadFileResponseDto = stockService.saveAllStocks(file);
-                return ResponseEntity.ok(uploadFileResponseDto);
+            ResponseDto uploadFileResponseDto = stockService.saveAllStocks(file);
+            return ResponseEntity.ok(uploadFileResponseDto);
         }
         log.error(AppErrorCodes.INVALID_FILE_FORMAT.getMessage());
         throw new AppException(AppErrorCodes.INVALID_FILE_FORMAT);
@@ -47,8 +47,9 @@ public class StockController {
     }
 
     @GetMapping("/search")
-    public SearchStocksResponseDto searchStocks(@RequestParam String keywords) {
-        return stockService.search(keywords);
+    public ResponseEntity<SearchStocksResponseDto> searchStocks(@RequestParam String keywords) {
+        SearchStocksResponseDto searchStocksResponseDto = stockService.search(keywords);
+        return ResponseEntity.ok(searchStocksResponseDto);
     }
 
     @GetMapping("/{id}")
