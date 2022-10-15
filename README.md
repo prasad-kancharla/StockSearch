@@ -16,4 +16,11 @@
  
  Now Run the *Application.java* from IDE
  
+ #### (Optional) STEP 5: Open Postman and import postman collection by following the below steps
+ File -> Import -> Upload Files -> select stock_search .postman_collection
+ 
+ 
+
+
+ 
 
