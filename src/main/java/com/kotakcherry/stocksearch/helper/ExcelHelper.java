@@ -8,8 +8,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -18,7 +16,7 @@ import java.util.List;
 
 public class ExcelHelper {
     public static String TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    static String[] HEADERs = {"Id", "Name", "Sector", "MarketCap", "ClosePrice", "PERatio"};
+    static String[] HEADERs = {"Id", "Ticker", "Name", "Sector", "MarketCap", "ClosePrice", "PERatio"};
     static String SHEET = "Stocks";
 
     public static boolean hasExcelFormat(MultipartFile file) {
@@ -61,26 +59,25 @@ public class ExcelHelper {
                         case 0:
                             stock.setId((long) currentCell.getNumericCellValue());
                             break;
-
                         case 1:
+                            stock.setTicker(currentCell.getStringCellValue());
+                            break;
+                        case 2:
                             stock.setName(currentCell.getStringCellValue());
                             break;
-
-                        case 2:
+                        case 3:
                             stock.setSector(currentCell.getStringCellValue());
                             break;
-
-                        case 3:
+                        case 4:
                             stock.setMarketCap(currentCell.getNumericCellValue());
                             break;
 
-                        case 4:
+                        case 5:
                             stock.setClosePrice(currentCell.getNumericCellValue());
                             break;
-                        case 5:
+                        case 6:
                             stock.setPeRatio(currentCell.getNumericCellValue());
                             break;
-
                         default:
                             break;
                     }
