@@ -6,18 +6,18 @@
  https://www.elastic.co/downloads/past-releases/elasticsearch-6-5-1
  
  #### STEP 2: Navigate to Config folder and open elasticsearch.yml. Uncomment 'cluster.name:' property & update it as below
- cluster.name: stocksearch
+ <code> cluster.name: stocksearch </code>
  
  #### STEP 3: Navigate to bin folder and open terminal at this path. Type the below command and press enter
- $ elasticsearch.bat
+ <code> elasticsearch.bat </code>
  
  #### STEP 4: Open browser and visit the below url to see the details of elastic search.
- http://localhost:9200/
+ <code> http://localhost:9200/ </code>
  
  Now Run the *Application.java* from IDE
  
  #### (Optional) STEP 5: Open Postman and import postman collection by following the below steps
- File -> Import -> Upload Files -> select stock_search .postman_collection
+ <code> File -> Import -> Upload Files -> select stock_search .postman_collection </code>
  
  Please use the TestStocks.xlsx as a sample excel sheet for your reference
  
