@@ -20,6 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/stocks")
 @Slf4j
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class StockController {
 
     @Autowired
@@ -40,7 +41,7 @@ public class StockController {
         throw new AppException(AppErrorCodes.INVALID_FILE_FORMAT);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/")
     public ResponseEntity<StockResponseDto> addStock(@RequestBody StockRequestDto stockRequestDto) {
         StockResponseDto stockResponseDto = stockService.addStock(stockRequestDto);
         return ResponseEntity.ok(stockResponseDto);
